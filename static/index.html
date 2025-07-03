@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RAG PDF QA</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; max-width: 600px; margin: auto; }
+    textarea, select, input { width: 100%; margin: 0.5rem 0; }
+    button { padding: 0.5rem 1rem; background: #007bff; color: white; border: none; cursor: pointer; }
+    #answer-box { background: #f8f8f8; padding: 1rem; border-radius: 4px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h2>📄 Ask a Question About the PDF</h2>
+
+  <label>Question:</label>
+  <textarea id="question" rows="3"></textarea>
+
+  <label>Chunking Method:</label>
+  <select id="method">
+    <option value="words">words</option>
+    <option value="lines">lines</option>
+    <option value="paragraphs">paragraphs</option>
+    <option value="sentence">sentence</option>
+  </select>
+
+  <button onclick="askQuestion()">Ask</button>
+
+  <div id="answer-box"></div>
+
+  <script>
+    async function askQuestion() {
+      const question = document.getElementById("question").value;
+      const method = document.getElementById("method").value;
+
+      const response = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, method })
+      });
+
+      const data = await response.json();
+      document.getElementById("answer-box").innerText = data.answer || data.detail;
+    }
+  </script>
+</body>
+</html>
