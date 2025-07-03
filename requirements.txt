@@ -1,0 +1,6 @@
+faiss-cpu
+PyMuPDF
+sentence-transformers
+fastapi
+uvicorn
+ollama
